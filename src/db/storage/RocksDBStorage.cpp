@@ -113,5 +113,4 @@ std::vector<std::optional<std::string>> RocksStorage::BatchGet(const std::vector
     return results;
 }
 
-
 } // namespace WW

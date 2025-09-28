@@ -5,8 +5,8 @@
 #include <memory>
 #include <optional>
 
-#include "Storage.h"
-#include "Index.h"
+#include "storage/RocksDBStorage.h"
+#include "index/BruteForceIndex.h"
 
 namespace WW
 {
