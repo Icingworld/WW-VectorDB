@@ -7,6 +7,7 @@
 #include <cstddef>
 
 #include "Index.h"
+#include "LocalFilesystem.h"
 
 namespace WW
 {
@@ -18,6 +19,7 @@ struct SegmentMeta
 {
     std::string id;                 // segment id
     std::string collection_id;      // belongs to which collection
+    int dimension;                  // dimension of segment
     std::size_t row_count;          // current count
     bool is_sealed;                 // whether segment is sealed
     std::string path;               // path of storage
@@ -34,6 +36,8 @@ public:
 
     const std::string & CollectionId() const;
 
+    int Dimension() const;
+    
     std::size_t RowCount() const;
 
     bool IsSealed() const;
@@ -58,6 +62,7 @@ private:
     SegmentMeta meta_;
     std::unordered_map<std::string, std::vector<float>> data_;
     std::unique_ptr<IIndex> index_;
+    std::unique_ptr<IFileSystem> fs_;
 };
 
 } // namespace WW

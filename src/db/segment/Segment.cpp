@@ -1,5 +1,7 @@
 #include "Segment.h"
 
+#include "Serializer.h"
+
 namespace WW
 {
     
@@ -39,7 +41,12 @@ void Segment::Seal()
 
 void Segment::Save()
 {
-
+    // 1. write vectors into vector.bin
+    std::vector<char> data;
+    data.reserve(meta_.dimension * meta_.row_count);
+    for (auto & [id, vector] : data_) {
+        
+    }
 }
 
 void Segment::Load()
