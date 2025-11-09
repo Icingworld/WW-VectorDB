@@ -73,3 +73,14 @@ target_link_libraries(uuid_test PRIVATE
 )
 
 add_test(NAME uuid_test COMMAND uuid_test)
+
+add_executable(distance_test
+    tests/utils/math/distance_test.cpp
+)
+
+target_link_libraries(distance_test PRIVATE
+    vectordb_utils
+    Threads::Threads
+)
+
+add_test(NAME distance_test COMMAND distance_test)
