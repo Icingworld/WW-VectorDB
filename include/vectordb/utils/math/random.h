@@ -10,7 +10,10 @@ namespace vectordb::utils
  * @brief 均匀分布
  * @tparam NumberType 数值类型，仅支持 `int` 和 `real`
  */
-template <typename NumberType, typename Enable = void>
+template <
+    typename NumberType,
+    typename Enable = void
+>
 class UniformDistribution;
 
 template <typename NumberType>
@@ -62,7 +65,8 @@ public:
     template <
         typename DistributionType,
         typename... Args
-    > typename DistributionType::result_type distribution(Args &&... args);
+    >
+    typename DistributionType::result_type distribution(Args &&... args);
 
     /**
     * @brief 获取指定概率下伯努利分布的随机数
@@ -97,13 +101,15 @@ private:
 template <
     typename DistributionType,
     typename RandomEngine = std::default_random_engine
-> class DistributionRandomGenerator
+>
+class DistributionRandomGenerator
 {
 public:
     template <
         typename SeedType,
         typename... Args
-    > DistributionRandomGenerator(SeedType && seed, Args &&... args);
+    >
+    DistributionRandomGenerator(SeedType && seed, Args &&... args);
 
     ~DistributionRandomGenerator() = default;
 

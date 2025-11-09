@@ -23,7 +23,8 @@ template <typename RandomEngine>
 template <
     typename DistributionType,
     typename... Args
-> typename DistributionType::result_type RandomGenerator<RandomEngine>::distribution(Args &&... args)
+>
+typename DistributionType::result_type RandomGenerator<RandomEngine>::distribution(Args &&... args)
 {
     DistributionType dist(std::forward<Args>(args)...);
     return dist(engine);
@@ -56,7 +57,8 @@ template <
 template <
     typename SeedType,
     typename... Args
-> DistributionRandomGenerator<DistributionType, RandomEngine>::DistributionRandomGenerator(SeedType && seed, Args &&... args)
+>
+DistributionRandomGenerator<DistributionType, RandomEngine>::DistributionRandomGenerator(SeedType && seed, Args &&... args)
     : dist(std::forward<Args>(args)...)
     , engine(seed)
 {
