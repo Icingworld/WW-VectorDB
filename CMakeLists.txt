@@ -28,6 +28,7 @@ set(UTILS_SOURCES
     src/utils/logger/logger.cpp
     src/utils/logger/sink/base.cpp
     src/utils/logger/sink/console_sink.cpp
+    src/utils/uuid.cpp
 )
 
 # 创建模块子库
@@ -61,3 +62,14 @@ target_link_libraries(sync_console_logger_test PRIVATE
 )
 
 add_test(NAME sync_console_logger_test COMMAND sync_console_logger_test)
+
+add_executable(uuid_test
+    tests/utils/uuid/uuid_test.cpp
+)
+
+target_link_libraries(uuid_test PRIVATE
+    vectordb_utils
+    Threads::Threads
+)
+
+add_test(NAME uuid_test COMMAND uuid_test)
