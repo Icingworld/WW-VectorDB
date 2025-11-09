@@ -1,0 +1,70 @@
+#pragma once
+
+#include <array>
+
+#include "vectordb/utils/memory_pool/list/free_list.h"
+#include "vectordb/utils/memory_pool/common/common.h"
+
+namespace vectordb::utils
+{
+
+/**
+ * @brief 线程缓存
+ */
+class ThreadCache
+{
+private:
+    std::array<FreeList, MAX_ARRAY_SIZE> free_lists;       // 自由表数组
+
+private:
+    ThreadCache();
+
+    ThreadCache(const ThreadCache &) = delete;
+
+    ThreadCache & operator=(const ThreadCache &) = delete;
+
+public:
+    ~ThreadCache();
+
+public:
+    /**
+    * @brief 获取线程缓存单例
+    */
+    static ThreadCache & getThreadCache();
+
+    /**
+    * @brief 申请内存
+    * @param size 内存大小
+    * @return 成功返回`void *`，失败返回`nullptr`
+    */
+    void * allocate(size_type size) noexcept;
+
+    /**
+    * @brief 回收内存
+    * @param ptr 内存指针
+    * @param size 内存大小
+    */
+    void deallocate(void * ptr, size_type size) noexcept;
+
+private:
+    /**
+    * @brief 判断是否需要归还给中心缓存
+    * @param index 索引
+    */
+    bool shouldReturn(size_type index)  const noexcept;
+
+    /**
+    * @brief 从中心缓存获取一批内存块
+    * @param size 申请的内存块大小
+    */
+    void fetchFromCentralCache(size_type size) noexcept;
+
+    /**
+    * @brief 将一批内存块还给中心缓存
+    * @param index 归还内存所在的索引
+    * @param nums 归还的内存数量
+    */
+    void returnToCentralCache(size_type index, size_type nums) noexcept;
+};
+
+} // namespace vectordb::utils

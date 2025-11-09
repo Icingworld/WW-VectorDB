@@ -29,6 +29,13 @@ set(UTILS_SOURCES
     src/utils/logger/sink/base.cpp
     src/utils/logger/sink/console_sink.cpp
     src/utils/uuid.cpp
+    src/utils/memory_pool/common/platform.cpp
+    src/utils/memory_pool/common/size.cpp
+    src/utils/memory_pool/list/free_list.cpp
+    src/utils/memory_pool/list/span_list.cpp
+    src/utils/memory_pool/cache/page_cache.cpp
+    src/utils/memory_pool/cache/central_cache.cpp
+    src/utils/memory_pool/cache/thread_cache.cpp
 )
 
 # 创建模块子库
@@ -84,3 +91,14 @@ target_link_libraries(distance_test PRIVATE
 )
 
 add_test(NAME distance_test COMMAND distance_test)
+
+add_executable(thread_cache_test
+    tests/utils/memory_pool/thread_cache_test.cpp
+)
+
+target_link_libraries(thread_cache_test PRIVATE
+    vectordb_utils
+    Threads::Threads
+)
+
+add_test(NAME thread_cache_test COMMAND thread_cache_test)
