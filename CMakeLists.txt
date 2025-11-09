@@ -1,0 +1,63 @@
+cmake_minimum_required(VERSION 3.20)
+project(WW-VectorDB VERSION 0.1.0 LANGUAGES CXX)
+
+# 设置 C++ 编译标准
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# 输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# 包含目录
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# 添加源文件
+set(CORE_SOURCES
+    src/core/segment.cpp
+    src/core/collection.cpp
+)
+
+set(UTILS_SOURCES
+    src/utils/logger/common/level.cpp
+    src/utils/logger/formatter/default_formatter.cpp
+    src/utils/logger/logger/base.cpp
+    src/utils/logger/logger/sync_logger.cpp
+    src/utils/logger/logger.cpp
+    src/utils/logger/sink/base.cpp
+    src/utils/logger/sink/console_sink.cpp
+)
+
+# 创建模块子库
+add_library(vectordb_core STATIC ${CORE_SOURCES})
+add_library(vectordb_utils STATIC ${UTILS_SOURCES})
+
+find_package(Threads REQUIRED)
+
+# 创建主库
+add_library(vectordb INTERFACE)
+
+# 链接子库到主库
+target_link_libraries(vectordb INTERFACE
+    vectordb_core
+    vectordb_utils
+)
+
+# 创建别名
+add_library(WW::vectordb ALIAS vectordb)
+
+enable_testing()
+
+add_executable(sync_console_logger_test
+    tests/utils/logger/sync_console_logger_test.cpp
+)
+
+target_link_libraries(sync_console_logger_test PRIVATE
+    vectordb_core
+    vectordb_utils
+    Threads::Threads
+)
+
+add_test(NAME sync_console_logger_test COMMAND sync_console_logger_test)

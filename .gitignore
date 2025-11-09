@@ -1,0 +1,49 @@
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+install_manifest.txt
+CTestTestfile.cmake
+
+# Ninja
+.ninja_deps
+.ninja_log
+build.ninja
+rules.ninja
+
+# Visual Studio / VSCode CMake
+CMakeSettings.json
+.vscode/
+.vs/
+
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+
+# 编译产物
+build/
+out/
+bin/
+lib/
+*.o
+*.obj
+*.lo
+*.la
+*.a
+*.lib
+*.dll
+*.dylib
+*.so
+*.pdb
+*.mod
+*.exe
+
+# 其他常见
+*.log
+*.tmp
+*.cache
+.clangd/
+.idea/
+.clangd
