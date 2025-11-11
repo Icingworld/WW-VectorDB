@@ -2,6 +2,8 @@
 
 #include <functional>
 
+#include "vectordb/core/meta.inl"
+
 namespace vectordb::core
 {
 
@@ -18,7 +20,7 @@ common::Json SegmentMeta::toJson() const
     return json;
 }
 
-void SegmentMeta::FromJson(const common::Json & json)
+void SegmentMeta::fromJson(const common::Json & json)
 {
     segment_id = json["segment_id"].get<std::string>();
     collection_id = json["collection_id"].get<std::string>();
@@ -31,12 +33,13 @@ void SegmentMeta::FromJson(const common::Json & json)
 
 void Segment::loadSegment()
 {
-    // TODO: 加载段
+    // 1. 加载段元数据
+    LoadMeta(meta, getStoragePath() + "/meta.json");
 }
 
 void Segment::saveSegment()
 {
-    // TODO: 保存段
+    SaveMeta(meta, getStoragePath() + "/meta.json");
 }
 
 void Segment::sealSegment()

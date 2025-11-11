@@ -6,6 +6,7 @@
 #include <utility>
 #include <unordered_map>
 
+#include "vectordb/core/meta.h"
 #include "vectordb/common/type.h"
 #include "vectordb/common/json.h"
 
@@ -25,25 +26,25 @@ enum class SegmentStatus : std::uint8_t
 /**
  * @brief 段元数据
  */
-class SegmentMeta
+class SegmentMeta : public MetaBase
 {
 public:
-    SegmentMeta() = default;
+    explicit SegmentMeta() = default;
 
-    ~SegmentMeta() = default;
+    ~SegmentMeta() override = default;
 
 public:
     /**
      * @brief 转换为 JSON
      * @return JSON
      */
-    common::Json toJson() const;
+    common::Json toJson() const override;
 
     /**
      * @brief 从 JSON 转换
      * @param json JSON
      */
-    void FromJson(const common::Json & json);
+    void fromJson(const common::Json & json) override;
 
 public:
     std::string segment_id;                 // segment 唯一标识
