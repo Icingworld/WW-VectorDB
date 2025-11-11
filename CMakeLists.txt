@@ -11,10 +11,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
+# 添加第三方库的
+add_subdirectory(third_party/json)
+
 # 包含目录
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # 添加源文件
+set(COMMON_SOURCES
+    src/common/placeholder.cpp
+)
+
 set(CORE_SOURCES
     src/core/segment.cpp
     src/core/collection.cpp
@@ -39,8 +46,20 @@ set(UTILS_SOURCES
 )
 
 # 创建模块子库
+add_library(vectordb_common STATIC ${COMMON_SOURCES})
+target_link_libraries(vectordb_common PUBLIC
+    nlohmann_json::nlohmann_json
+)
+
 add_library(vectordb_core STATIC ${CORE_SOURCES})
+target_link_libraries(vectordb_core PRIVATE
+    vectordb_common
+)
+
 add_library(vectordb_utils STATIC ${UTILS_SOURCES})
+target_link_libraries(vectordb_utils PRIVATE
+    vectordb_common
+)
 
 find_package(Threads REQUIRED)
 
